@@ -430,9 +430,7 @@ add_string(uint32_t *position, size_t dest_size, size_t size, void *dest, const 
     for (size_t i = 0; i < size; ++i) {
         *(((char *) (dest)) + i) = src[i + offset];
         ++(*position);
-        //printf("%d:%c ",(int)i,src[i+offset]);
     }
-    //   printf("\n\n");
     return rest;
 }
 
@@ -460,21 +458,7 @@ struct dir_t *dir_open(struct volume_t *pvolume, const char *dir_path) {
         }
         result->volume = pvolume;
         result->pos = 0;
-        /*
-        for (size_t i = 0; i < result->file_count; ++i) {
-            result->files[i].name = generate_name(&pvolume->root[i]);
-            if (result->files[i].name == NULL) {
-                for (size_t y = 0; y <= i; ++y) {
-                    free(result->files[i].name);
-                }
-                free(result->files);
-                free(result);
-                errno = ENOMEM;
-                return NULL;
-            }
 
-        }
-        */
     } else {
         free(result);
         return NULL;
@@ -497,31 +481,7 @@ int generate_name(const struct SFN *file, char *dest) {
     }
 
     memset(dest, '\0', 13);
-/*
-    int is_dir = 4;
 
-    if ((file->file_attributes & 0x10) >> 4) {
-        is_dir = 0;
-    }
-
-    size_t end_of_filename = 0;
-    for (; file->filename[end_of_filename] != ' ' && end_of_filename < 11; ++end_of_filename);
-
-    if (is_dir != 0 && end_of_filename >= 8) {
-        end_of_filename -= 3;
-    }
-    size_t i = 0;
-    for (; i < end_of_filename; ++i) {
-        dest[i] = file->filename[i];
-    }
-    if (is_dir != 0) {
-        dest[i] = '.';
-        ++i;
-        for (size_t y = 8; y < 11; ++y, ++i) {
-            dest[i] = file->filename[y];
-        }
-    }
-*/
     int pos = 0;
     for (int i = 0; i < 8; ++i, ++pos) {
         if (file->filename[i] == ' ')
